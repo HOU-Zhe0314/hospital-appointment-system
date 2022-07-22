@@ -1,0 +1,28 @@
+package zh.hospital.cmn.listener;
+
+import com.alibaba.excel.context.AnalysisContext;
+import com.alibaba.excel.event.AnalysisEventListener;
+import zh.hospital.cmn.mapper.DictMapper;
+import zh.hospital.model.cmn.Dict;
+import zh.hospital.vo.cmn.DictEeVo;
+import org.springframework.beans.BeanUtils;
+
+public class DictListener extends AnalysisEventListener<DictEeVo> {
+
+    private DictMapper dictMapper;
+    public DictListener(DictMapper dictMapper) {
+        this.dictMapper = dictMapper;
+    }
+
+    @Override
+    public void invoke(DictEeVo dictEeVo, AnalysisContext analysisContext) {
+        Dict dict = new Dict();
+        BeanUtils.copyProperties(dictEeVo,dict);
+        dictMapper.insert(dict);
+    }
+
+    @Override
+    public void doAfterAllAnalysed(AnalysisContext analysisContext) {
+
+    }
+}
